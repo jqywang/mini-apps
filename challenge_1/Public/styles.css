@@ -1,0 +1,15 @@
+table {
+	padding: 10px;
+	border-collapse: seperate;
+	border-spacing: 5px;
+}
+th {
+	border: 5px solid black;
+	height: 140px;
+	width: 140px;	
+	font-size: 90px;
+}
+#box {
+	font-size: 30px;
+	padding-left: 100px;
+}
