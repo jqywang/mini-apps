@@ -5,8 +5,8 @@ table {
 }
 th {
 	border: 5px solid black;
-	height: 140px;
-	width: 140px;	
+	height: 120px;
+	width: 120px;	
 	font-size: 90px;
 }
 #box {
@@ -15,6 +15,10 @@ th {
 }
 .wrapper {
     text-align: center;
+}
+h3 {
+	margin-top: 10px;
+	margin-bottom: 10px;
 }
 
 .button {
