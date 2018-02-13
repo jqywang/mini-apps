@@ -11,5 +11,12 @@ th {
 }
 #box {
 	font-size: 30px;
-	padding-left: 100px;
+	align-content: center;
+}
+.wrapper {
+    text-align: center;
+}
+
+.button {
+    top: 50%;
 }
