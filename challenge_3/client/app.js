@@ -9,7 +9,6 @@ var generateEmptyBoard = function (rows, columns) {
   }
   return emptyBoard;
 };
-
 var insertAt = function (board, column, color) {
 	var index = 0;
 	for(var i = 0; i < board.length; i++) {
@@ -25,7 +24,6 @@ var insertAt = function (board, column, color) {
 	}
 	return [board, i]
 };
-
 var checkWinner = function (coordinates, board, color) {
   var row = coordinates[0];
   var column = coordinates[1];
@@ -103,10 +101,10 @@ var checkMinorDiag = function (coordinates, board, color) {
 };
 
 var nextMove = function (color) {
-	if(color === 'red') {
-		return 'yellow';
+	if(color === 'Red') {
+		return 'Yellow';
 	} 
-	return 'red';
+	return 'Red';
 };
 
 class Board extends React.Component {
@@ -114,8 +112,9 @@ class Board extends React.Component {
     super(props);
     this.state = {
       board : generateEmptyBoard(6, 7),
-      move : 'red',
-      winner: false
+      move : 'Red',
+      winMessage : '',
+      counter: 0
     }
   }
   handlePieceEntry (row, column) {
@@ -125,13 +124,18 @@ class Board extends React.Component {
   	var newBoard = insertAt(this.state.board, column, this.state.move);
   	row = newBoard[1];
   	var coordinates = [row, column];
-  	this.setState({board: newBoard[0]});
-  	if(checkWinner(coordinates, this.state.board, this.state.move)) {
-  		this.setState({winner: true});
-  	} else {
-  		var newColor = nextMove(this.state.move);
-  		this.setState({move:newColor});
-  	}
+		var newColor = nextMove(this.state.move);
+		var newCounter = this.state.counter + 1;
+  	this.setState({
+  		board: newBoard[0],
+  		counter: newCounter,
+  		move: newColor
+  	});
+  	if(checkWinner(coordinates, this.state.board, this.state.move) && this.state.winMessage.length === 0) {
+  		this.setState({winMessage: `${this.state.move} Player Wins!!!`});
+		} else if (this.state.counter === 41) {
+			this.setState({winMessage: 'You guys tied it'});
+		}
   }
   makeTable () {
   	return this.state.board.map((rows, i) => {
@@ -141,6 +145,17 @@ class Board extends React.Component {
   		return <div className = 'row'>{singleRow}</div>
   	})
   }
+
+  reset() {
+  	console.log('hell yea');
+  	this.setState({
+  		board : generateEmptyBoard(6, 7),
+      move : 'Red',
+      winMessage : '',
+      counter: 0
+  	});
+  }
+
   render () {
     return (
     	<div>
@@ -149,10 +164,17 @@ class Board extends React.Component {
     	this.makeTable()
     	}
     	</div>
-    	<h1></h1>
+    	<div className = 'info'>
+    	<Winner winner = {this.state.winMessage}/>
+    	<button onClick = {this.reset.bind(this)}>Wipe the Board :O) </button>
+    	</div>
     	</div>
     );
   }
+}
+
+function Winner (props) {
+	return <h1> {props.winner} </h1>
 }
 
 class Piece extends React.Component {
